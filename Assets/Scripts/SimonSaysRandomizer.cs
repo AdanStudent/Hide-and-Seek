@@ -29,7 +29,7 @@ public class SimonSaysRandomizer : MonoBehaviour
 	}
 
     //Ranges min and max for use with the Random function call
-    private float maxRange = 100000;
+    private float maxRange = 1000000;
     private float minRange = 0;
 
     //used to section off Range by 1/4's
@@ -39,6 +39,15 @@ public class SimonSaysRandomizer : MonoBehaviour
 
     // Update is called once per frame
     void Update ()
+    {
+        FillStack();
+
+    }
+
+    /// <summary>
+    /// Checks if playBackColors isFilled, and stores random float in randOutput
+    /// </summary>
+    private void FillStack()
     {
         if (!isFilled)
         {
@@ -55,7 +64,6 @@ public class SimonSaysRandomizer : MonoBehaviour
             ClearStack();
 
         }
-
     }
 
     private void CheckRandomOutput()
@@ -100,6 +108,8 @@ public class SimonSaysRandomizer : MonoBehaviour
             Debug.Log(color);
         }
         playBackColors.Clear();
+        isFilled = false;
+        Debug.Log("Done");
     }
 
     private void DebugCall(Colors current)
