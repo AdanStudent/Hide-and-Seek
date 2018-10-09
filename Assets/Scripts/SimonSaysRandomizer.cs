@@ -12,7 +12,7 @@ public class SimonSaysRandomizer : MonoBehaviour
 
     //holding all the Color States as they are generated
     [SerializeField]
-    private Stack<Colors> playBackColors;
+    private Queue<Colors> playBackColors;
 
     //check if playBackColors has been filled
     [SerializeField]
@@ -20,12 +20,12 @@ public class SimonSaysRandomizer : MonoBehaviour
 
     //how large of a stack should the Randomizer should make
     [SerializeField]
-    private int colorsLimit = 10;
+    private int colorsLimit = 1000;
 
     // Use this for initialization
     void Start ()
     {
-        playBackColors = new Stack<Colors>();
+        playBackColors = new Queue<Colors>();
 	}
 
     //Ranges min and max for use with the Random function call
@@ -40,7 +40,10 @@ public class SimonSaysRandomizer : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        FillStack();
+        for (int i = 0; i < colorsLimit/5; i++)
+        {
+            FillStack();
+        }
 
     }
 
@@ -61,24 +64,22 @@ public class SimonSaysRandomizer : MonoBehaviour
         }
         else
         {
-            ClearStack();
+            //ClearStack();
 
         }
     }
 
     private void CheckRandomOutput()
     {
-        Debug.Log(randOutput);
-
-        if (randOutput < quarterRange)
+        if (randOutput <= quarterRange)
         {
             AddToStack(Colors.RED);
         }
-        else if (randOutput < (quarterRange * 2))
+        else if (randOutput <= (quarterRange * 2))
         {
             AddToStack(Colors.GREEN);
         }
-        else if (randOutput < (quarterRange * 3))
+        else if (randOutput <= (quarterRange * 3))
         {
             AddToStack(Colors.BLUE);
         }
@@ -90,9 +91,10 @@ public class SimonSaysRandomizer : MonoBehaviour
 
     private void AddToStack(Colors current)
     {
+        Debug.Log(playBackColors.Count);
         if (playBackColors.Count < colorsLimit)
         {
-            playBackColors.Push(current);
+            playBackColors.Enqueue(current);
         }
         else
         {
